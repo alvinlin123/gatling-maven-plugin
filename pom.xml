@@ -61,6 +61,7 @@
 		<maven-plugin-plugin.version>3.2</maven-plugin-plugin.version>
 		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
 		<maven-license-plugin.version>1.10.b1</maven-license-plugin.version>
+		<maven-test-harness.version>1.3</maven-test-harness.version>
 	</properties>
 
 	<dependencyManagement>
@@ -174,6 +175,12 @@
 					<artifactId>plexus-archiver</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugin-testing</groupId>
+			<artifactId>maven-plugin-testing-harness</artifactId>
+			<version>${maven-test-harness.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
