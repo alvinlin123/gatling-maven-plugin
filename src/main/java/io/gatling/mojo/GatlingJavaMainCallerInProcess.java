@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 
+import scala.None;
 import scala.Option;
 import scala_maven_executions.JavaMainCallerInProcess;
 
@@ -86,6 +87,8 @@ public class GatlingJavaMainCallerInProcess extends JavaMainCallerInProcess {
 		/* 
 		 * Adding None to the second argument to fix issue:
 		 * 	https://github.com/excilys/gatling-maven-plugin/issues/3
+		 * 
+		 * Chose Option.apply(null) over scala.None$.MODULE$ for cleanness
 		 */
 		Integer ret = (Integer) runGatlingMethod.invoke(null, new Object[] { argArray, Option.apply(null)});
 
