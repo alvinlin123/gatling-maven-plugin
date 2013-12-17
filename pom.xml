@@ -42,6 +42,10 @@
 			<name>Romain Sertelon</name>
 			<organization>eBusiness Information, Excilys Group</organization>
 		</developer>
+		<developer>
+			<id>alvinlin123@gmail.com</id>
+			<name>Alvin Lin</name>
+		</developer>
 	</developers>
 
 	<properties>

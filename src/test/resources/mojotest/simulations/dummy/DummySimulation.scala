@@ -22,8 +22,8 @@ import io.gatling.http.Predef._;
 class DummySimulation extends Simulation {
 
   val scn = scenario("dummy")
-  .exec(http("dummy")
-         .get("http://excilysbank.gatling.cloudbees.net"));
+			  .exec(http("dummy")
+			  .get("http://excilysbank.gatling.cloudbees.net"));
    
   
    setUp(scn.inject(atOnceUsers(1)));
