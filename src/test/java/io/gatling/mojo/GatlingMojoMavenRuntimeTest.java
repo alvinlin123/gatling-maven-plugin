@@ -16,16 +16,100 @@
 package io.gatling.mojo;
 
 import java.io.File;
+import java.util.ArrayList;
 
+import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.junit.Test;
+import org.apache.maven.plugin.testing.stubs.MavenProjectStub;
+import org.apache.maven.project.MavenProject;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
+/**
+ * Tests the GatlingMojo class using maven-plugin-test-harness to make sure 
+ * the GatlingMojo can properly invokes Gatling App.
+ * 
+ * Note that this is a JUnit 3 style class because its parent class is JUnit 3 
+ * style test class.
+ */
 public class GatlingMojoMavenRuntimeTest extends AbstractMojoTestCase {
 
-	private final static File TEST_POM = getTestFile( "src/test/resources/unittest/testpom.xml");
+	private final static File TEST_POM = getTestFile( "src/test/resources/mojotest/testpom.xml");
 	
-	@Test
-	public void testPluginCanStartProperly() {
+	public void testPluginCanStartProperly() throws Exception {
 		
+		lookupMojo("execute", TEST_POM);
+	}
+	
+	public void testExecuteWithoutFork() throws Exception {
+		
+		GatlingMojo mojo = (GatlingMojo) lookupMojo("execute", TEST_POM);
+		
+		setVariableValueToObject(mojo, "mavenProject", mockMavenProject());
+		setVariableValueToObject(mojo, "fork", false);
+		setVariableValueToObject(mojo, "simulationClass", "dummy.DummySimulation");
+		
+		mojo.execute();
+	}
+	
+	public void testExecutWithFork() throws Exception {
+		
+		GatlingMojo mojo = (GatlingMojo) lookupMojo("execute", TEST_POM);
+		
+		setVariableValueToObject(mojo, "mavenProject", mockMavenProject());
+		setVariableValueToObject(mojo, "fork", true);
+		setVariableValueToObject(mojo, "simulationClass", "dummy.DummySimulation");
+		
+		mojo.execute();
+	}
+	
+	public void testExceptionPropagatedInNoForkMode() throws Exception {
+		
+		GatlingMojo mojo = (GatlingMojo) lookupMojo("execute", TEST_POM);
+		
+		setVariableValueToObject(mojo, "mavenProject", mockMavenProject());
+		setVariableValueToObject(mojo, "fork", false);
+		setVariableValueToObject(mojo, "simulationClass", "not exist");
+		
+		try {
+			mojo.execute();
+			fail("Should throw MojoExecutionException");
+		} catch (MojoExecutionException e) {
+			
+		}
+	}
+	
+	public void testExceptionPropagatedInForkedMode() throws Exception {
+		
+		GatlingMojo mojo = (GatlingMojo) lookupMojo("execute", TEST_POM);
+		
+		setVariableValueToObject(mojo, "mavenProject", mockMavenProject());
+		setVariableValueToObject(mojo, "fork", true);
+		setVariableValueToObject(mojo, "simulationClass", "not exist");
+		
+		try {
+			mojo.execute();
+			fail("Should throw MojoExecutionException");
+		} catch (MojoExecutionException e) {
+			
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private MavenProject mockMavenProject() {
+		
+		MavenProjectStub mvnPro = new MavenProjectStub();
+		
+		String classpaths = System.getProperty("java.class.path");
+		String sep = File.pathSeparator;
+		
+		String[] paths = classpaths.split(sep);
+		ArrayList<String> pathsArrayList = new ArrayList<String>();
+		pathsArrayList.addAll(Arrays.asList(paths));
+		
+		mvnPro.setTestClasspathElements(pathsArrayList);
+		
+		
+		return mvnPro;
 	}
 }

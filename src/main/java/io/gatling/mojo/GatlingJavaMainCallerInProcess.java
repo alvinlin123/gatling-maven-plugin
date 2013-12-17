@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
+
+import scala.None;
+import scala.Option;
 import scala_maven_executions.JavaMainCallerInProcess;
 
 /**
@@ -78,9 +81,14 @@ public class GatlingJavaMainCallerInProcess extends JavaMainCallerInProcess {
 	private int runGatling(String mainClassName, List<String> args) throws Exception {
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		Class<?> mainClass = cl.loadClass(mainClassName);
-		Method runGatlingMethod = mainClass.getMethod("runGatling", String[].class);
+		Method runGatlingMethod = mainClass.getMethod("runGatling", String[].class, Option.class);
 		String[] argArray = args.toArray(new String[args.size()]);
-		Integer ret = (Integer) runGatlingMethod.invoke(null, new Object[] { argArray });
+		
+		/* 
+		 * Adding None to the second argument to fix issue:
+		 * 	https://github.com/excilys/gatling-maven-plugin/issues/3
+		 */
+		Integer ret = (Integer) runGatlingMethod.invoke(null, new Object[] { argArray, Option.apply(null)});
 
 		// restore previous classpath system prop
 		System.setProperty("java.class.path", oldClassPath);

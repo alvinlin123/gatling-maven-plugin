@@ -196,7 +196,7 @@ public class GatlingMojo extends AbstractMojo {
 	 */
 	private boolean skip;
 
-	/**
+	/**lookupMojo("execute", TEST_POM);
 	 * The Maven Project
 	 * 
 	 * @parameter property="project"
@@ -271,10 +271,10 @@ public class GatlingMojo extends AbstractMojo {
 		List<String> testClasspathElements = (List<String>) mavenProject.getTestClasspathElements();
 		testClasspathElements.add(configDir.getPath());
 		// Find plugin jar and add it to classpath
-		testClasspathElements.add(MainHelper.locateJar(GatlingMojo.class));
+		testClasspathElements.add(GatlingMojoUtils.locateClass(GatlingMojo.class));
 		// Jenkins seems to need scala-maven-plugin in the test classpath in
 		// order to work
-		testClasspathElements.add(MainHelper.locateJar(MainWithArgsInFile.class));
+		testClasspathElements.add(GatlingMojoUtils.locateClass(MainWithArgsInFile.class));
 		return MainHelper.toMultiPath(testClasspathElements);
 	}
 
