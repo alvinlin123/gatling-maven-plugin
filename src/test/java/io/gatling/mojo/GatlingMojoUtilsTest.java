@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
-import org.apache.maven.project.MavenProject;
 import org.junit.Test;
 
 import scala_maven_executions.MainHelper;
