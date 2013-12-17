@@ -20,7 +20,10 @@ import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import scala_maven_executions.MainHelper;
+
 /**
+ * 
  * 
  * @author Alvin Lin (alvinlin123@gmail.com)
  *
@@ -32,6 +35,9 @@ public class GatlingMojoUtils {
 	
 	/**
 	 * Find class in either a JAR file or a directory.
+	 * 
+	 * This method is based on {@link MainHelper#locateJar(Class)}, which 
+	 * only looks for class file inside a JAR.
 	 * 
 	 * @param clazz
 	 * 	Class to look for.
