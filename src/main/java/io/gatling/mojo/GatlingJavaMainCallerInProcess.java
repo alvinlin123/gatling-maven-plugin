@@ -25,7 +25,6 @@ import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 
-import scala.None;
 import scala.Option;
 import scala_maven_executions.JavaMainCallerInProcess;
 
