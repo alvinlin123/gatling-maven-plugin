@@ -30,7 +30,9 @@ public class GatlingMojoUtilsTest {
 		
 		String path = GatlingMojoUtils.locateClass(GatlingMojoUtilsTest.class);
 		
-		assertEquals(new File("target"+File.separator+"test-classes").getCanonicalFile().getAbsolutePath(), path);
+		assertEquals(
+				new File("target"+File.separator+"test-classes").getCanonicalFile(), 
+				new File(path).getCanonicalFile());
 	}
 	
 	@Test
@@ -38,6 +40,8 @@ public class GatlingMojoUtilsTest {
 	
 		String path = GatlingMojoUtils.locateClass(String.class);
 		
-		assertEquals(MainHelper.locateJar(String.class), path);
+		assertEquals(
+				new File(MainHelper.locateJar(String.class)).getCanonicalFile(), 
+				new File(path).getCanonicalFile());
 	}
 }

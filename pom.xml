@@ -178,10 +178,19 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.apache.maven.plugin-testing</groupId>
 			<artifactId>maven-plugin-testing-harness</artifactId>
 			<version>${maven-test-harness.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		 	<!-- for some reason gatling-app does not depend on gatling-http? -->
+			<groupId>io.gatling</groupId>
+			<artifactId>gatling-http</artifactId>
+			<version>${gatling.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
